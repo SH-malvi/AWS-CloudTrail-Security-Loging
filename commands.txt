@@ -1,0 +1,9 @@
+# How I Created Trail using AWS CLI
+
+aws s3api create-bucket --bucket shraddha-cloudtrail-logs-2026 --region ap-south-1 --create-bucket-configuration LocationConstraint=ap-south-1
+
+aws cloudtrail create-trail --name shraddha-security-trail --s3-bucket-name shraddha-cloudtrail-logs-2026
+
+aws cloudtrail start-logging --name shraddha-security-trail
+
+aws cloudtrail get-trail-status --name shraddha-security-trail
