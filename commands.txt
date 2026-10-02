@@ -1,9 +1,19 @@
-# How I Created Trail using AWS CLI
+# How I Created CloudTrail using AWS CLI
 
-aws s3api create-bucket --bucket shraddha-cloudtrail-logs-2026 --region ap-south-1 --create-bucket-configuration LocationConstraint=ap-south-1
+# 1. Create S3 Bucket for logs
+aws s3api create-bucket --bucket shraddha-cloudtrail-logs --region ap-south-1 --create-bucket-configuration LocationConstraint=ap-south-1
 
-aws cloudtrail create-trail --name shraddha-security-trail --s3-bucket-name shraddha-cloudtrail-logs-2026
+# 2. Add Bucket Policy (Important - allows CloudTrail to write logs)
+# Policy file ko alag se banana padta hai - S3 Console se bhi add kar sakte ho
 
+# 3. Create CloudTrail Trail
+aws cloudtrail create-trail --name shraddha-security-trail --s3-bucket-name shraddha-cloudtrail-logs --is-multi-region-trail
+
+# 4. Start Logging
 aws cloudtrail start-logging --name shraddha-security-trail
 
+# 5. Check Status
 aws cloudtrail get-trail-status --name shraddha-security-trail
+
+# 6. Verify logs in S3
+aws s3 ls s3://shraddha-cloudtrail-logs/AWSLogs/ --recursive
